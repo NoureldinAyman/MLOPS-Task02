@@ -1,0 +1,62 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python preprocess.py
+    deps:
+    - path: data/cleaned_merged_heart_dataset.csv
+      hash: md5
+      md5: 3e0e97a4f66efea1377ef793b0b8a02e
+      size: 71762
+    - path: preprocess.py
+      hash: md5
+      md5: 4ba3971559de6df0c904df69ed0441b1
+      size: 526
+    outs:
+    - path: data/test.csv
+      hash: md5
+      md5: ecf4028c6119d2ccd2a93a616d4eb71e
+      size: 14431
+    - path: data/train.csv
+      hash: md5
+      md5: 6638f3bb006a66a40982c6fe2c80a39a
+      size: 57413
+  train:
+    cmd: python train.py
+    deps:
+    - path: data/train.csv
+      hash: md5
+      md5: 6638f3bb006a66a40982c6fe2c80a39a
+      size: 57413
+    - path: train.py
+      hash: md5
+      md5: 48e39da98dfc0172143c576f49c1dc8f
+      size: 472
+    outs:
+    - path: model.joblib
+      hash: md5
+      md5: e2e2be50f3878e5f6e5b120221387425
+      size: 1311
+  validate:
+    cmd: python validate.py
+    deps:
+    - path: data/test.csv
+      hash: md5
+      md5: ecf4028c6119d2ccd2a93a616d4eb71e
+      size: 14431
+    - path: model.joblib
+      hash: md5
+      md5: e2e2be50f3878e5f6e5b120221387425
+      size: 1311
+    - path: validate.py
+      hash: md5
+      md5: 4ad5624f50313a3fa14d7109a8fc7967
+      size: 1008
+    outs:
+    - path: confusion_matrix.png
+      hash: md5
+      md5: 19b29643010ed0a338950c73b1373c9a
+      size: 15630
+    - path: metrics.json
+      hash: md5
+      md5: 94945ff16da09c7da7ebcb6b2ab30b1c
+      size: 32
